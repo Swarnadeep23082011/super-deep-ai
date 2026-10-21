@@ -444,6 +444,15 @@
             <span>Take a quick break</span>
             Tell me a short, clever joke.
           </button>
+          <button class="suggestion"
+        data-prompt="Why is the model named Pumpkin Bash?">
+  <span>Why is the model named Pumpkin Bash?</span>
+</button>
+
+<button class="suggestion"
+        data-prompt="What significance can a pumpkin hold in the life of a developer, coder, or logical thinker?">
+  <span>What significance can a pumpkin hold in a developer's or coder's life?</span>
+</button>
         </div>
       </section>
 
@@ -504,8 +513,20 @@
       return bubble;
     }
 
-    function demoReply(text) {
-      const lower = text.toLowerCase();
+    
+function demoReply(text) {
+      const lower = text.toLowerCase().trim();
+
+      if (lower === "why is the model named pumpkin bash?") {
+        return "The name is in memory of someone special—someone close, important, and unforgettable. It carries a meaning beyond just a name.";
+      }
+
+      if (
+        lower === "what significance can a pumpkin hold in the life of a developer, coder, or logical thinker?" ||
+        lower === "what significance can a pumpkin hold in a developer's or coder's life?"
+      ) {
+        return "Sometimes, even a person who spends life solving problems, thinking logically, and struggling through challenges needs a way to pause. A pumpkin can represent that little escape from hardship—a reminder to enjoy a few genuine moments of happiness. Think of it as a little cheat code for life: a reminder that life isn't only about solving problems; it's also about finding joy.";
+      }
 
       if (/\b(joke|funny|laugh)\b/.test(lower)) {
         return "Demo response: Why did the computer get glasses? To improve its web sight. The live AI connection will be added in the next phase.";
@@ -517,8 +538,8 @@
 
       return "Thanks for your message! The chat interface is working, but this is only a demonstration response. In Phase 3, we'll connect a real AI model so SUPER DEEP AI can reason about your question and provide a useful, detailed answer.";
     }
+ 
 
-    
 async function sendMessage(text) {
   const clean = text.trim();
   if (!clean) return;
