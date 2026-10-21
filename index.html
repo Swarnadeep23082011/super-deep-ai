@@ -517,16 +517,46 @@
       return "Thanks for your message! The chat interface is working, but this is only a demonstration response. In Phase 3, we'll connect a real AI model so SUPER DEEP AI can reason about your question and provide a useful, detailed answer.";
     }
 
-    function sendMessage(text) {
-      const clean = text.trim();
-      if (!clean) return;
+    
+async function sendMessage(text) {
+  const clean = text.trim();
+  if (!clean) return;
 
-      welcome.hidden = true;
-      addMessage("user", clean);
-      addMessage("assistant", demoReply(clean));
-      promptBox.value = "";
-      promptBox.focus();
+  welcome.hidden = true;
+  addMessage("user", clean);
+  promptBox.value = "";
+  promptBox.focus();
+
+  const sendButton = form.querySelector('button[type="submit"]');
+  if (sendButton) sendButton.disabled = true;
+
+  const loadingMessage = addMessage("assistant", "Thinking...");
+
+  try {
+    const response = await fetch("https://super-deep-ai-backend.swarnadeepkha.workers.dev", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: clean })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "The AI service returned an error.");
     }
+
+    loadingMessage.textContent = data.reply;
+  } catch (error) {
+    loadingMessage.textContent =
+      "Sorry, I couldn't reach the AI service. Please try again.";
+    console.error("SUPER DEEP AI error:", error);
+  } finally {
+    if (sendButton) sendButton.disabled = false;
+  }
+}
+
 
     form.addEventListener("submit", function(event) {
       event.preventDefault();
