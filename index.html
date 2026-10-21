@@ -549,10 +549,13 @@ async function sendMessage(text) {
     }
 
     loadingMessage.textContent = data.reply;
-  } catch (error) {
-    loadingMessage.textContent =
-      "Sorry, I couldn't reach the AI service. Please try again.";
+    } catch (error) {
     console.error("SUPER DEEP AI error:", error);
+
+    if (loadingMessage) {
+      loadingMessage.textContent =
+        "Debug error: " + (error.message || String(error));
+    }
   } finally {
     if (sendButton) sendButton.disabled = false;
   }
