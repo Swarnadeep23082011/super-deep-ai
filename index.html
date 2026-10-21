@@ -552,7 +552,26 @@ async function sendMessage(text) {
   const sendButton = form.querySelector('button[type="submit"]');
   if (sendButton) sendButton.disabled = true;
 
+  
   const loadingMessage = addMessage("assistant", "Thinking...");
+
+  const lower = clean.toLowerCase().trim();
+
+  const pumpkinAnswers = {
+    "why is the model named pumpkin bash?":
+      "The name is in memory of someone special—someone close, important, and unforgettable. It carries a meaning beyond just a name.",
+
+    "what significance can a pumpkin hold in the life of a developer, coder, or logical thinker?":
+      "Sometimes, even a person who spends life solving problems, thinking logically, and struggling through challenges needs a way to pause. A pumpkin can represent that little escape from hardship—a reminder to enjoy a few genuine moments of happiness. Think of it as a little cheat code for life: a reminder that life isn't only about solving problems; it's also about finding joy."
+  };
+
+  const pumpkinQuestion = pumpkinAnswers[lower];
+
+  if (pumpkinQuestion) {
+    loadingMessage.textContent = pumpkinQuestion;
+    if (sendButton) sendButton.disabled = false;
+    return;
+  }
 
   try {
     const response = await fetch("https://super-deep-ai-backend.swarnadeepkha.workers.dev", {
@@ -570,19 +589,18 @@ async function sendMessage(text) {
     }
 
     loadingMessage.textContent = data.reply;
-    
-} catch (error) {
-  console.error("SUPER DEEP AI error:", error);
 
-  if (loadingMessage) {
+  } catch (error) {
+    console.error("SUPER DEEP AI error:", error);
+
     loadingMessage.textContent =
       "This is an early version of SUPER DEEP AI. The website is live, but the AI service is currently unavailable. This is only the beginning. Thank you for witnessing the first step.";
-  }
 
   } finally {
     if (sendButton) sendButton.disabled = false;
   }
 }
+
 
 
     form.addEventListener("submit", function(event) {
