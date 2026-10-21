@@ -549,13 +549,15 @@ async function sendMessage(text) {
     }
 
     loadingMessage.textContent = data.reply;
-    } catch (error) {
-    console.error("SUPER DEEP AI error:", error);
+    
+} catch (error) {
+  console.error("SUPER DEEP AI error:", error);
 
-    if (loadingMessage) {
-      loadingMessage.textContent =
-        "Debug error: " + (error.message || String(error));
-    }
+  if (loadingMessage) {
+    loadingMessage.textContent =
+      "This is an early version of SUPER DEEP AI. The website is live, but the AI service is currently unavailable. This is only the beginning. Thank you for witnessing the first step.";
+  }
+
   } finally {
     if (sendButton) sendButton.disabled = false;
   }
